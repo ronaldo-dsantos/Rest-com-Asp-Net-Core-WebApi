@@ -259,3 +259,4 @@ healthcheck
 # angular
 package-lock.json
 .angular/
+src/DevIO.API/wwwroot/app/

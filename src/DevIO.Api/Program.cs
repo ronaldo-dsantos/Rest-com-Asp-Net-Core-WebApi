@@ -12,6 +12,26 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     options.SuppressModelStateInvalidFilter = true;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Development",
+        builder =>
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+
+    //options.AddPolicy("Production",
+    //    builder =>
+    //        builder
+    //            .WithMethods("GET")
+    //            .WithOrigins("http://desenvolvedor.io")
+    //            .SetIsOriginAllowedToAllowWildcardSubdomains()
+    //            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+    //            .AllowAnyHeader());
+});
+
 builder.Services.AddDbContext<MeuDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -28,6 +48,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseCors("Development");
 }
 
 app.UseHttpsRedirection();
