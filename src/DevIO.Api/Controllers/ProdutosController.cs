@@ -3,10 +3,12 @@ using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.Api.Controllers
 {
+    [Authorize]
     [Route("api/produtos")]
     public class ProdutosController : MainController
     {
@@ -40,6 +42,7 @@ namespace DevIO.Api.Controllers
             return produtoViewModel;
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
         {
@@ -57,6 +60,7 @@ namespace DevIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
         {
@@ -95,6 +99,7 @@ namespace DevIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
         {
@@ -135,9 +140,12 @@ namespace DevIO.Api.Controllers
             return true;
         }
 
-        // Controller alternativo para exemplificar como receber arquivos grandes por usando o IFormFile 
+        #region UploadAlternativo
+
+        // Controller alternativa para exemplificar como receber arquivos grandes por usando o IFormFile 
+        [ClaimsAuthorize("Produto", "Adicionar")]
+        [HttpPost("Adicionar")]        
         [RequestSizeLimit(50000000)]
-        [HttpPost("Adicionar")]
         public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(
             // Binder personalizado para envio de IFormFile e ViewModel dentro de um FormData compatível com .NET Core 3.1 ou superior (system.text.json)
             [ModelBinder(BinderType = typeof(ProdutoModelBinder))]
@@ -189,5 +197,7 @@ namespace DevIO.Api.Controllers
 
             return true;
         }
+
+        #endregion
     }
 }

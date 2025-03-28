@@ -109,6 +109,7 @@ namespace DevIO.Api.Controllers
 
             var encodedToken = tokenHandler.WriteToken(token);
 
+            // Trecho de código inserido para retornar o token + informações do usuário
             var response = new LoginResponseViewModel
             {
                 AccessToken = encodedToken,
