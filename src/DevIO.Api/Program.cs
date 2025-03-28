@@ -19,6 +19,6 @@ builder.Services.ResolveDependencies();
 
 var app = builder.Build();
 
-app.MapControllers();
+app.UseApiConfig(app.Environment);
 
 app.Run();
