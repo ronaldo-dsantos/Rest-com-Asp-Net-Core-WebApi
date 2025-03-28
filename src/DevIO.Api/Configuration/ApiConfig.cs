@@ -6,6 +6,8 @@ namespace DevIO.Api.Configuration
     {
         public static IServiceCollection AddApiConfig(this IServiceCollection services)
         {
+            services.AddControllers();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -50,7 +52,8 @@ namespace DevIO.Api.Configuration
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             return app;
         }
