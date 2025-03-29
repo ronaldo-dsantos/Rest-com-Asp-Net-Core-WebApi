@@ -40,12 +40,12 @@ namespace DevIO.Api.Configuration
         public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
+            {                
                 app.UseCors("Development");
                 app.UseDeveloperExceptionPage();
             }
             else
-            {                
+            {
                 app.UseCors("Development"); // Temporário, o ideal é usar "Production"
                 app.UseHsts();
             }            
