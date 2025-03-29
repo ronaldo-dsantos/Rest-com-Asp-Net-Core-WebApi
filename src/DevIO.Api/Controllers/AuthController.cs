@@ -29,7 +29,7 @@ namespace DevIO.Api.Controllers
             _appSettings = appSettings.Value;
         }
 
-        //[EnableCors("Development")]
+        //[EnableCors("Development")] // Exemplo de como habilitar o CORS para um método específico, desde que não tenha sido habilitado globalmente
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
         {

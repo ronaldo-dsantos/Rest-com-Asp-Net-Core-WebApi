@@ -16,22 +16,20 @@ namespace DevIO.Api.Configuration
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Development",
-                    builder =>
-                        builder
+                options.AddPolicy("Development", builder =>
+                    builder
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 
 
-                options.AddPolicy("Production",
-                    builder =>
-                        builder
-                            .WithMethods("GET")
-                            .WithOrigins("http://desenvolvedor.io")
-                            .SetIsOriginAllowedToAllowWildcardSubdomains()
-                            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
-                            .AllowAnyHeader());
+                options.AddPolicy("Production", builder =>
+                    builder
+                        .WithMethods("GET")
+                        .WithOrigins("http://desenvolvedor.io")
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        //.WithHeaders(HeaderNames.ContentType, "x-custom-header") // Exemplo caso queira permitir apenas alguns headers
+                        .AllowAnyHeader());
             });
 
             return services;
