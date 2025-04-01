@@ -1,4 +1,6 @@
-﻿namespace DevIO.Api.Configuration
+﻿using DevIO.Api.Extensions;
+
+namespace DevIO.Api.Configuration
 {
     public static class LoggerConfig
     {
@@ -6,18 +8,23 @@
         {
             services.AddElmahIo(o =>
             {
-                o.ApiKey = "7d7d15419d1b4dd18d884dfc7f02a52d";
-                o.LogId = new Guid("195d6f3a-560a-4040-86e5-d35cf237b10f");
+                o.ApiKey = "388dd3a277cb44c4aa128b5c899a3106";
+                o.LogId = new Guid("c468b2b8-b35d-4f1a-849d-f47b60eef096");
             });
 
-            services.AddLogging(o =>
-            {
-                services.AddElmahIo(o =>
+            services.AddHealthChecks()
+                .AddElmahIoPublisher(options =>
                 {
-                    o.ApiKey = "7d7d15419d1b4dd18d884dfc7f02a52d";
-                    o.LogId = new Guid("195d6f3a-560a-4040-86e5-d35cf237b10f");
-                });               
-            });
+                    options.ApiKey = "388dd3a277cb44c4aa128b5c899a3106";
+                    options.LogId = new Guid("c468b2b8-b35d-4f1a-849d-f47b60eef096");
+                    options.HeartbeatId = "API Fornecedores";
+
+                })
+                .AddCheck("Produtos", new SqlServerHealthCheck(configuration.GetConnectionString("DefaultConnection")))
+                .AddSqlServer(configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+
+            services.AddHealthChecksUI()
+                .AddSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
 
             return services;
         }
@@ -30,3 +37,4 @@
         }
     }
 }
+
