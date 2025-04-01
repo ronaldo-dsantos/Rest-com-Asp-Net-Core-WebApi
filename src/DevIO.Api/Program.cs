@@ -1,5 +1,6 @@
 using DevIO.Api.Configuration;
 using DevIO.Data.Context;
+using Elmah.Io.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ builder.Services.AddApiConfig();
 
 builder.Services.AddSwaggerConfig();
 
+builder.Services.AddLoggingConfig(builder.Configuration);
+
 builder.Services.ResolveDependencies();
 
 var app = builder.Build();
@@ -27,5 +30,7 @@ var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionD
 app.UseApiConfig(app.Environment);
 
 app.UseSwaggerConfig(apiVersionDescriptionProvider);
+
+app.UseLoggingConfiguration();
 
 app.Run();
