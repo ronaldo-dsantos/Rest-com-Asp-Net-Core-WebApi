@@ -1,6 +1,5 @@
 using DevIO.Api.Configuration;
 using DevIO.Data.Context;
-using Elmah.Io.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 

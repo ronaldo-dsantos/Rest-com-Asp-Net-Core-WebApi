@@ -1,4 +1,6 @@
 ﻿using DevIO.Api.Extensions;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace DevIO.Api.Configuration
 {
@@ -13,13 +15,6 @@ namespace DevIO.Api.Configuration
             });
 
             services.AddHealthChecks()
-                .AddElmahIoPublisher(options =>
-                {
-                    options.ApiKey = "388dd3a277cb44c4aa128b5c899a3106";
-                    options.LogId = new Guid("c468b2b8-b35d-4f1a-849d-f47b60eef096");
-                    options.HeartbeatId = "API Fornecedores";
-
-                })
                 .AddCheck("Produtos", new SqlServerHealthCheck(configuration.GetConnectionString("DefaultConnection")))
                 .AddSqlServer(configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
 
@@ -32,6 +27,16 @@ namespace DevIO.Api.Configuration
         public static IApplicationBuilder UseLoggingConfiguration(this IApplicationBuilder app)
         {
             app.UseElmahIo();
+
+            // Endpoint dos Health Checks
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
+
+            // Adicionando a UI do HealthChecks
+            app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
 
             return app;
         }

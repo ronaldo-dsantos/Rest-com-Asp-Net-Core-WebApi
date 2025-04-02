@@ -3,6 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace DevIO.Api.Extensions
 {
+    // Classe para verificar a saúde do banco de dados SQL Server
     public class SqlServerHealthCheck : IHealthCheck
     {
         readonly string _connection;
